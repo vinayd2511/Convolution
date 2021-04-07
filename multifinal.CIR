@@ -1,0 +1,50 @@
+*multi
+.model Diode D
+.INCLUDE LF356.MOD
+XU1 0 1 7 4 2 LF356/NS
+XU2 0 a 7 4 b LF356/NS
+
+XU3 0 3 7 4 c LF356/NS
+XU4 e s 7 4 s LF356/NS 
+XU5 0 d 7 4 out LF356/NS
+XU6 0 i 7 4 out1 LF356/NS
+
+Rs s r 0.1
+
+Rf i out1 1k
+Cf i out1 1uF
+
+D1 1 2 Diode
+D2 a b Diode
+D3 r d Diode
+
+*V1 in1 0 SIN(0 1 500)
+
+V2 in2 0 SIN(0 1 100)
+
+V1 in1 0 PULSE(0 1 1us 1us 1us 5ms 10ms)
+
+R1 in1 1 10
+R3 in2 a 10
+R2 2 3 10
+R4 b 3 10
+
+R5 3 c 10
+
+C1 e c 1u
+
+R6 e s 10k
+
+R8 d out 10
+R9 out i 100
+
+
+Vp 7 0 12
+Vm 4 0 -12
+
+.control
+tran 0.01ms 50ms
+Set Xbrushwidth=2
+plot V(in1) V(in2)+3 V(out1)+6
+.endc
+.end
